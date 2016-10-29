@@ -16,7 +16,7 @@ Class Todo_model extends CI_Model {
 		$numberpaging=$this->filter->FilterInput($this->uri->segment(6));
 		
 		if(empty($field)) {
-			$field='tbl_task.id';
+			$field='tbl_wisnu.id';
 			$sort='desc';
 		}
 		?>
@@ -32,12 +32,12 @@ Class Todo_model extends CI_Model {
 			$limit=20;
 			$start_paging=$numberpaging*$limit;			
 			$this->db->select('
-				tbl_task.id,
-				tbl_task.task,
-				tbl_task.date,
-				tbl_task.time,
+				tbl_wisnu.id,
+				tbl_wisnu.task,
+				tbl_wisnu.date,
+				tbl_wisnu.time,
 			');
-			$this->db->from('tbl_task');
+			$this->db->from('tbl_wisnu');
 			$this->db->order_by($field,$sort);
 			$this->db->limit($limit,$start_paging);
 			$query=$this->db->get();				
@@ -67,7 +67,7 @@ Class Todo_model extends CI_Model {
 			</table>
 		<?php
 			$this->db->select('id');
-			$this->db->from('tbl_task');
+			$this->db->from('tbl_wisnu');
 						
 			$query=$this->db->get();
 			$num=$query->num_rows();
@@ -94,7 +94,7 @@ Class Todo_model extends CI_Model {
 
 		// Duplicate validation
 		$arrayvalues=array('task'=>$task);
-		$check_duplicate=$this->crud->DuplicateValidation("tbl_task",$arrayvalues);
+		$check_duplicate=$this->crud->DuplicateValidation("tbl_wisnu",$arrayvalues);
 			
 		if(!empty($check_empty)) {
 			$output=array('output'=>"Please fill the empty field...!\n($check_empty)");
@@ -103,7 +103,7 @@ Class Todo_model extends CI_Model {
 			$output=array('output'=>"Duplicate field, please change with another value...!\n($check_duplicate)");		
 		}else{
 			$arrayvalues=array('task'=>$task,'date'=>$date,'time'=>$time);
-			$query=$this->crud->InsertDefault('tbl_task',$arrayvalues);
+			$query=$this->crud->InsertDefault('tbl_wisnu',$arrayvalues);
 			if($query) {
 				$output=array('output'=>'true');
 			}
@@ -117,7 +117,7 @@ Class Todo_model extends CI_Model {
 		$id=$this->filter->FilterInput($this->uri->segment(4));
 		
 		$arraywhere=array('id'=>$id);
-		$query=$this->crud->DeleteDefault('tbl_task',$arraywhere);
+		$query=$this->crud->DeleteDefault('tbl_wisnu',$arraywhere);
 		if($query) {
 			$output=array('output'=>'true');
 		}
@@ -138,7 +138,7 @@ Class Todo_model extends CI_Model {
 
 		// Duplicate validation
 		$arrayvalues=array('id !='=>$id,'task'=>$task);
-		$check_duplicate=$this->crud->DuplicateValidation("tbl_task",$arrayvalues);
+		$check_duplicate=$this->crud->DuplicateValidation("tbl_wisnu",$arrayvalues);
 			
 		if(!empty($check_empty)) {
 			$output=array('output'=>"Please fill the empty field...!\n($check_empty)");
@@ -148,7 +148,7 @@ Class Todo_model extends CI_Model {
 		}else{				
 			$arrayvalues=array('task'=>$task);
 			$arraywhere=array('id'=>$id);
-			$query=$this->crud->UpdateDefault('tbl_task',$arrayvalues,$arraywhere);
+			$query=$this->crud->UpdateDefault('tbl_wisnu',$arrayvalues,$arraywhere);
 			if($query) {
 				$output=array('output'=>'true');
 			}
@@ -192,10 +192,10 @@ Class Todo_model extends CI_Model {
 		
 		$this->db->select('*');
 		$this->db->where('id',$id);
-		$query=$this->db->get('tbl_task');
+		$query=$this->db->get('tbl_wisnu');
 		if($query->num_rows() > 0) {
 			$row=$query->row();
-			$fields = $this->db->list_fields('tbl_task');
+			$fields = $this->db->list_fields('tbl_wisnu');
 			foreach ($fields as $field) {
 				$output[$field]=$row->$field;
 			} 			
